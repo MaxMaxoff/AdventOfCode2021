@@ -8,12 +8,15 @@ def calc_digits(dig_output):
 
 
 def clean_input(dig_input, digits):
+    '''Just clean already found digits
+    '''
     for key in digits:
         if dig_input.count(digits[key]) > 0:
             dig_input.pop(dig_input.index(digits[key]))
 
 
 def analyze_digit(dig_input):
+    # length for digits
     digs_length = {
         2: 1,
         5: [2, 3, 5],
@@ -22,6 +25,18 @@ def analyze_digit(dig_input):
         3: 7,
         7: 8
     }
+
+    '''
+     #1#
+    #   #    
+    2   3
+    #   #
+     #4#
+    #   #
+    5   6
+    #   #
+     #7#
+    '''
     wires = {
         1: '',
         2: '',
@@ -33,11 +48,15 @@ def analyze_digit(dig_input):
     }
     digits = {}
     digits_s = {}
+
+    # find 1, 4, 7, 8
     for item in dig_input:
         if type(digs_length[len(item)]) == int:
             digits[digs_length[len(item)]] = item
             digits_s[item] = digs_length[len(item)]
     clean_input(dig_input, digits)
+
+    # find 6, 3
     for item in dig_input:
         if len(item) == 6:
             if len(set(digits[1]) - set(item)) == 1:
@@ -50,6 +69,8 @@ def analyze_digit(dig_input):
                 digits[3] = item
                 digits_s[item] = 3
     clean_input(dig_input, digits)
+
+    # find 9, 0
     for item in dig_input:
         if len(item) == 6:
             if len(set(digits[8]) - set(digits[3]) - set(item)) == 1:
@@ -63,6 +84,8 @@ def analyze_digit(dig_input):
                 digits[0] = item
                 digits_s[item] = 0
     clean_input(dig_input, digits)
+
+    # find 5, 2
     for item in dig_input:
         if len(set(digits[9]) - wires[3] - set(item)) == 0:
             digits[5] = item
@@ -72,6 +95,7 @@ def analyze_digit(dig_input):
             digits_s[item] = 2
     clean_input(dig_input, digits)
     wires[1] = set(digits[7]) - set(digits[1])
+
     return digits_s
 
 
