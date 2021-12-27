@@ -35,15 +35,15 @@ def do_flash(puzzle, point):
 
 def make_step(puzzle):
     to_flash = define_flash(puzzle, 9)
-    flashes = 0
+    flashes = len(to_flash)
     for y in range(len(puzzle)):
         for x in range(len(puzzle[y])):
             puzzle[y][x] += 1
     while to_flash:
         for point in to_flash:
             do_flash(puzzle, point)
-            flashes += 1
         to_flash = define_flash(puzzle, 10)
+        flashes += len(to_flash)
     return flashes
 
 
